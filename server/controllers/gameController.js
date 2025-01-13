@@ -210,7 +210,7 @@ class GameController {
             if (value === "X") {
               ctx.fillText("\uf00d", x, y); // X icon
             } else {
-              ctx.fillText("\uf111", x, y); // O icon
+              ctx.fillText("o", x, y); // O icon
             }
           } else {
             // Draw cell number
