@@ -117,12 +117,10 @@ class GameController {
       const scale = 2;
       const cellSize = 50 * scale;
       const padding = 40 * scale;
-      const headerHeight = 100 * scale;
-      const footerHeight = 80 * scale;
+      const headerHeight = 80 * scale;
 
       const width = game.size * cellSize + padding * 2;
-      const height =
-        game.size * cellSize + padding * 2 + headerHeight + footerHeight;
+      const height = game.size * cellSize + padding * 2 + headerHeight;
 
       const canvas = createCanvas(width, height);
       const ctx = canvas.getContext("2d");
@@ -155,32 +153,12 @@ class GameController {
       ctx.fillStyle = colors.bg;
       ctx.fillRect(0, 0, width, height);
 
-      // Draw header with shadow
-      ctx.fillStyle = colors.boardBg;
-      ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
-      ctx.shadowBlur = 10 * scale;
-      ctx.shadowOffsetY = 5 * scale;
-      ctx.fillRect(
-        padding / 2,
-        padding / 2,
-        width - padding,
-        headerHeight - padding / 2
-      );
-      ctx.shadowColor = "transparent";
-
-      // Draw game title
+      // Draw title text
       ctx.fillStyle = "#2196f3";
       ctx.font = `bold ${42 * scale}px "Segoe UI Bold"`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-
-      // Draw gamepad icon
-      ctx.font = `normal ${42 * scale}px "Font Awesome 6 Pro Solid"`;
-      ctx.fillText("\uf11b", width / 2 - 120 * scale, headerHeight / 2); // Gamepad icon
-
-      // Draw title text
-      ctx.font = `bold ${42 * scale}px "Segoe UI Bold"`;
-      ctx.fillText("Gomoku Game", width / 2 + 20 * scale, headerHeight / 2);
+      ctx.fillText("Gomoku Game", width / 2, headerHeight / 2 + 10 * scale);
 
       // Draw board background with shadow
       ctx.fillStyle = colors.boardBg;
@@ -191,7 +169,7 @@ class GameController {
         padding / 2,
         headerHeight + padding / 2,
         width - padding,
-        height - headerHeight - footerHeight - padding
+        height - headerHeight - padding
       );
       ctx.shadowColor = "transparent";
 
@@ -203,7 +181,7 @@ class GameController {
       for (let i = 0; i <= game.size; i++) {
         ctx.beginPath();
         ctx.moveTo(padding + i * cellSize, headerHeight + padding);
-        ctx.lineTo(padding + i * cellSize, height - footerHeight - padding);
+        ctx.lineTo(padding + i * cellSize, height - padding);
         ctx.stroke();
       }
 
@@ -249,45 +227,6 @@ class GameController {
         }
       }
 
-      // Draw footer with shadow
-      ctx.fillStyle = colors.boardBg;
-      ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
-      ctx.shadowBlur = 10 * scale;
-      ctx.shadowOffsetY = 5 * scale;
-      ctx.fillRect(
-        padding / 2,
-        height - footerHeight + padding / 2,
-        width - padding,
-        footerHeight - padding
-      );
-      ctx.shadowColor = "transparent";
-
-      // Draw current turn in footer
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.font = `${28 * scale}px "Segoe UI"`;
-
-      const turnText = `Current Turn: `;
-      const textWidth = ctx.measureText(turnText).width;
-
-      // Draw "Current Turn: " in normal color
-      ctx.fillStyle = colors.text;
-      ctx.fillText(
-        turnText,
-        width / 2 - textWidth / 4,
-        height - footerHeight / 2
-      );
-
-      // Draw player symbol (X/O) in its color
-      ctx.font = `normal ${28 * scale}px "Font Awesome 6 Pro Solid"`;
-      ctx.fillStyle =
-        game.currentPlayer === "X" ? colors.xColor : colors.oColor;
-      ctx.fillText(
-        game.currentPlayer === "X" ? "\uf00d" : "\uf111",
-        width / 2 + textWidth / 4,
-        height - footerHeight / 2
-      );
-
       // Draw overlay for game end
       if (game.status === "finished" || game.status === "draw") {
         ctx.fillStyle = colors.overlayBg;
@@ -295,7 +234,7 @@ class GameController {
           padding / 2,
           headerHeight + padding / 2,
           width - padding,
-          height - headerHeight - footerHeight - padding
+          height - headerHeight - padding
         );
 
         ctx.fillStyle = colors.text;
@@ -316,31 +255,9 @@ class GameController {
         ctx.fillText(
           message,
           width / 2,
-          headerHeight + (height - headerHeight - footerHeight) / 2
+          headerHeight + (height - headerHeight) / 2
         );
       }
-
-      // Add subtle border radius to all rectangles
-      ctx.strokeStyle = colors.grid;
-      ctx.lineWidth = scale;
-      ctx.strokeRect(
-        padding / 2,
-        padding / 2,
-        width - padding,
-        headerHeight - padding / 2
-      );
-      ctx.strokeRect(
-        padding / 2,
-        headerHeight + padding / 2,
-        width - padding,
-        height - headerHeight - footerHeight - padding
-      );
-      ctx.strokeRect(
-        padding / 2,
-        height - footerHeight + padding / 2,
-        width - padding,
-        footerHeight - padding
-      );
 
       // Send the image
       res.setHeader("Content-Type", "image/png");
