@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width-device-width, initial-scale=1.0" />
+    <title>Gomoku Game</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1 class="game-title">
+          <i class="fas fa-gamepad"></i> Gomoku Game
+        </h1>
+        <button class="theme-toggle" onclick="UI.toggleTheme()">
+          <i class="fas fa-moon"></i>
+        </button>
+      </header>
+
+      <div class="controls-container">
+        <div class="game-controls">
+          <div class="control-group">
+            <div class="size-control">
+              <label for="boardSize">Board Size:</label>
+              <input type="number" id="boardSize" min="5" max="16" value="10" />
+            </div>
+            <button class="new-game-btn" onclick="Game.newGame()">
+              <i class="fas fa-plus"></i> New Game
+            </button>
+          </div>
+
+          <div class="control-group">
+            <div class="game-id-container">
+              <input type="text" id="gameId" placeholder="Game ID" readonly />
+              <button class="copy-id-btn" onclick="UI.copyGameId()" title="Copy Game ID">
+                <i class="fas fa-copy"></i>
+              </button>
+              <button class="delete-game-btn" onclick="UI.showDeleteConfirmation()" title="Delete Game">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+            <button class="load-game-btn" onclick="UI.showLoadGamePrompt()">
+              <i class="fas fa-folder-open"></i> Load Game
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="status" id="status">Start a new game or load existing one</div>
+
+      <div class="board-container">
+        <div class="board" id="board">
+          <!-- cells will be added here -->
+          <div class="overlay" id="overlay">
+            <div class="overlay-content"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/game.js"></script>
+  </body>
+</html>
